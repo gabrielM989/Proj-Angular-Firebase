@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AutorizacaoService } from '../services/autorizacao.service';
 
 @Component({
   selector: 'app-funcionario-adm',
@@ -7,11 +9,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FuncionarioAdmComponent implements OnInit {
 
-  constructor() { }
+  usuarioEstaLogado = this.autorizacao.obterStatusLogin()
+
+  constructor(
+
+    private autorizacao: AutorizacaoService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
   }
   
+  fazerLogout(){
+    this.autorizacao.deslogar()
+    this.router.navigate(['/'])
+    //this.usuarioEstaLogado = this.autorizacao.obterStatusLogin()
+
+  }
   
 
 }

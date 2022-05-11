@@ -4,6 +4,13 @@ import { FuncionarioAdmComponent } from './components/funcionario/funcionario-ad
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AngularFireModule } from '@angular/fire/compat';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/storage';
+
+//Parte de autenticação
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/templates/home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -15,6 +22,14 @@ import { FuncionarioCardComponent } from './components/funcionario/funcionario-c
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LOCALE_ID } from '@angular/core';
+
+import { registerLocaleData } from '@angular/common';
+import  localePT  from '@angular/common/locales/pt';
+import { LoginComponent } from './components/login/login.component';
+import { CargoListaComponent } from './components/cargo/cargo-lista/cargo-lista.component';
+
+registerLocaleData(localePT)
 
 @NgModule({
   declarations: [
@@ -25,6 +40,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     FuncionarioListaComponent,
     MainNavComponent,
     FuncionarioCardComponent,
+    LoginComponent,
+    CargoListaComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,13 +50,18 @@ import { ReactiveFormsModule } from '@angular/forms';
     LayoutModule,
     AppRoutingsModule,
 
+
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
 
     ReactiveFormsModule
 
   ],
-  providers: [],
+  providers: [
+    AngularFireAuth,
+
+    {provide: LOCALE_ID, useValue: "pt-BR"}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

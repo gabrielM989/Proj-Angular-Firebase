@@ -1,0 +1,54 @@
+<div class="flex-container column my-5">
+    <table mat-table [dataSource]="cargos" class="fun-table">
+  
+  
+      <ng-container matColumnDef="cargo">
+        <th mat-header-cell *matHeaderCellDef>Cargo</th>
+        <td mat-cell *matCellDef="let cargo">
+  
+            {{ cargo.cargo }}
+  
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="descricao">
+        <th mat-header-cell *matHeaderCellDef>Descrição</th>
+        <td mat-cell *matCellDef="let cargo">{{ cargo.descricao }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="salarioBase">
+        <th mat-header-cell *matHeaderCellDef>Salário Base</th>
+        <td mat-cell *matCellDef="let cargo">{{ cargo.salarioBase }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="acoes"> <!-- É a coluna de ações -->
+        <th mat-header-cell *matHeaderCellDef>Acoes</th>
+        <td mat-cell *matCellDef="let fun">
+          <button mat-icon-button color="accent"  > <!-- Tem que ser o FUN, para pegarmos todos os dados do funcionario -->
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button  mat-icon-button color="warn" style="margin-left: 10px;"  >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="columns"></tr> <!-- COLUMNS serve para se quisermos definir o nome de cada coluna da tabela -->
+      <!-- O cabeçalho de nossa tabela -->
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
+    <div *ngIf="carregando" class="spinner">
+      <mat-spinner></mat-spinner> <!-- Enquanto estiver carregando a aplicação, fica rodando uma bolinha -->
+  </div>
+  <div *ngIf="!carregando" class="mensagem-sem-registros">
+      Nenhum registro carregado
+  </div>
+  
+  <mat-paginator>
+    *ngIf="page.totalElements > 0"
+          [length]="page.totalElements"
+          [pageSize]="5"
+          [pageSizeOptions]="[5, 10, 25, 100]"
+          (page)="pageEvent = $event; listarItens()"
+  </mat-paginator>
+

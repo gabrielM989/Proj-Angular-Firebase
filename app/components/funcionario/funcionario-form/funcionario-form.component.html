@@ -28,15 +28,19 @@
             <select name="cargo" formControlName="cargo" class="form-control mb-3"
                 [class.valido-icon]="this.funcionario.get('cargo')?.valid"
                 [class.invalido-icon]="this.funcionario.get('cargo')?.invalid && this.funcionario.get('cargo')?.touched">>
-                <option value="ADM">Administração</option>
-                <option value="RH">Recursos Humanos</option>
-                <option value="TI">Tecnologia da Informação</option>
+                <option *ngFor="let cargo of cargos" [ngValue]="cargo.cargo"><!-- Para trazer os dados da outra collection -->
+                  {{cargo.cargo}} - {{cargo.descricao}}
+
+                </option> 
+               
             </select>
           </div>
-    
-          <button mat-raised-button color="primary" type="button" class="btn " >Adicionar Foto</button>
-          <input type="file" id="file-input" #fileInput formControlName="foto" accept="image/*" >
-          <button class="btn mx-2 " mat-raised-button [disabled]="funcionario.invalid" (click)="addFuncionario()" color="accent" type="submit" style="margin-top: 10px;">Salvar</button>
+        <!-- id="file-input" -->
+        <!--   <button mat-raised-button color="primary" type="button" class="btn " >Adicionar Foto</button> -->
+          <input type="file" style="color: transparent"  formControlName="foto" accept="image/*" (change)="carregarImagem($event)" >
+          <button class="btn mx-2 " mat-raised-button [disabled]="funcionario.invalid" (click)="salvarFuncionario()" color="accent" type="submit" style="margin-top: 10px;">Salvar</button>
         </form>
+
+        <!-- style="color: transparent" -- Para sumir a mensagem de que o arquivo ainda não havia sido enviado -->
     
     </div>

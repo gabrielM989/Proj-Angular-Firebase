@@ -12,6 +12,8 @@ firebase.initializeApp(environment.firebase) // Importamos o Fire Base para dent
 })
 export class FuncionarioService {
 
+  storageRef = firebase.app().storage().ref()
+
   constructor(
 
     private fireAngular: AngularFirestore //Injeção de dependência do Angular FireStore
@@ -51,6 +53,22 @@ export class FuncionarioService {
 
   }
 
+  editarFuncionario(id: string, funcionario: Funcionario): Promise<any>{
+    return this.fireAngular.collection('funcionario').doc(id).update(funcionario)
+  }
+  
+  //A função putString faz a conversão do arquivo imgBase64 para blob(blob carrega um arquivo)
+  async subirImagem(nome: string, imgBase64: any ){ //Função do tipo assíncrona, normalmente usamos o Try Catch
+
+    try{
+      let resultado = await this.storageRef.child("imgFoto/" + nome).putString(imgBase64, 'data_url') // await -- Espera o processo ser resolvido
+      console.log(resultado)
+      return await resultado.ref.getDownloadURL() //Estamos conseguindo a URL/O endereço de onde o arquivo ficará armazenado no Cloud Storage, do FireBase
+    }catch(err){
+      console.log(err)
+      return null
+    }
+  }
 }
 
 
